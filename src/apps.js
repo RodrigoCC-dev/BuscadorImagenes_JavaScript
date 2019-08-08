@@ -1,7 +1,17 @@
-console.log("inicio Script");
+//console.log("inicio Script");
 
 let formularioHTML = document.getElementById('formulario');
-//var resultados = { texto: 'esto no debe ser asi'};
+let botonAnt = document.getElementById('pagAnterior');
+let botonSig = document.getElementById('pagSiguiente');
+
+botonAnt.style.display = "none";
+botonSig.style.display = "none";
+
+let parametros = {
+  texto: '',
+  hoja: 1,
+  paginacion: 'display'
+};
 
 formularioHTML.addEventListener('submit', function(e){
   e.preventDefault();
@@ -9,14 +19,18 @@ formularioHTML.addEventListener('submit', function(e){
   let datos = new FormData(formularioHTML);
   //console.log(datos);
   //console.log(datos.get('datoBusqueda'));
+  parametros.texto = datos.get('datoBusqueda');
+  //console.log(parametros.texto);
 
-  obtenerImagenes(datos.get('datoBusqueda'));
+  obtenerImagenes(parametros.texto, parametros.hoja);
   //console.log(imagenes);
 })
 
-function obtenerImagenes(cadena){
-  let url = `https://pixabay.com/api/?key=13119123-71c035b33f77efe6f842330ec&q=${cadena}&per_page=20`;
-  console.log(url);
+function obtenerImagenes(cadena, pagina){
+  let url = `https://pixabay.com/api/?key=13119123-71c035b33f77efe6f842330ec&q=${cadena}&per_page=20&page=${pagina}`;
+  //console.log(url);
+  botonAnt.style.display = "inline-block";
+  botonSig.style.display = 'inline-block';
 
   const api = new XMLHttpRequest();
   api.open('GET', url, true);
@@ -28,7 +42,7 @@ function obtenerImagenes(cadena){
     if(this.status == 200 && this.readyState == 4){
       //console.log(this.responseText);
       var resultados = JSON.parse(this.responseText);
-      console.log(resultados.hits);
+      //console.log(resultados.hits);
       //return resultados.hits;
 
       let pizarra = document.getElementById('mapa');
@@ -36,7 +50,7 @@ function obtenerImagenes(cadena){
       for(let item of resultados.hits){
         pizarra.innerHTML += imprimirImagenes(item);
       }
-      
+
     }
 
   }
@@ -62,3 +76,24 @@ function imprimirImagenes(objeto){
   `;
   return lienzo;
 }
+
+function scroll(){
+  const elemento = document.querySelector('.jumbotron');
+  elemento.scrollIntoView('smooth', 'end');
+}
+
+botonAnt.addEventListener('click', function(){
+  //console.log(hoja--);
+  if(parametros.hoja > 1){
+    parametros.hoja--;
+    obtenerImagenes(parametros.texto, parametros.hoja);
+    scroll();
+  }
+});
+
+botonSig.addEventListener('click', function(){
+  //console.log(hoja++);
+  parametros.hoja++
+  obtenerImagenes(parametros.texto, parametros.hoja);
+  scroll();
+});
