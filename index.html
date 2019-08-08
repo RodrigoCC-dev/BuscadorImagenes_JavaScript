@@ -9,37 +9,45 @@
   </head>
 
   <body>
-    <div class="container">
+    <div class="app container">
       <div class="jumbotron">
 
         <p class="lead text-center">Buscador de Imágenes</p>
 
-        <form>
+        <!-- Componente Buscador -->
+        <form id="formulario">
           <div class="row">
 
             <div class="form-group col-md-8">
-              <input type="text" class="form-control form-control-lg"
-              placeholder="Busca tu imagen. Ejemplo: café">
+              <input type="text" name="datoBusqueda" class="form-control form-control-lg"
+              placeholder="Busca tu imagen. Ejemplo: café" value="">
             </div>
 
             <div class="form-group col-md-4">
-
-              <input id="Boton" type="submit" class="btn btn-lg btn-danger btn-block"
+              <input type="submit" class="btn btn-lg btn-danger btn-block"
               value="Buscar">
-
               <!--
-              <button type="button" class="btn btn-lg btn-danger btn-block"
-              name="Buscar"></button>
+              <button id="botonBusqueda" class="btn btn-lg btn-danger btn-block">
+              Buscar
+              </button>
               -->
             </div>
 
           </div>
         </form>
 
+        <!-- Componente Resultado -->
+        <div class="row justify-content-center">
+          
+          <div id="mapa" class="col-12 p-5 row">
+          </div>
+
+        </div>
+
       </div>
     </div>
 
 
-  <script src="src/apps.js"></script>
+  <script src="./src/apps.js"></script>
   </body>
 </html>
