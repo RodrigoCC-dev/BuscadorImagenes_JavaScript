@@ -1,7 +1,10 @@
 console.log("inicio Script");
 
 let formularioHTML = document.getElementById('formulario');
-//var resultados = { texto: 'esto no debe ser asi'};
+let botonAnt = document.getElementById('pagAnterior');
+let botonSig = document.getElementById('pagSiguiente');
+
+let parametros = {texto: '', hoja: 1};
 
 formularioHTML.addEventListener('submit', function(e){
   e.preventDefault();
@@ -9,13 +12,15 @@ formularioHTML.addEventListener('submit', function(e){
   let datos = new FormData(formularioHTML);
   //console.log(datos);
   //console.log(datos.get('datoBusqueda'));
+  parametros.texto = datos.get('datoBusqueda');
+  //console.log(parametros.texto);
 
-  obtenerImagenes(datos.get('datoBusqueda'));
+  obtenerImagenes(parametros.texto, parametros.hoja);
   //console.log(imagenes);
 })
 
-function obtenerImagenes(cadena){
-  let url = `https://pixabay.com/api/?key=13119123-71c035b33f77efe6f842330ec&q=${cadena}&per_page=20`;
+function obtenerImagenes(cadena, pagina){
+  let url = `https://pixabay.com/api/?key=13119123-71c035b33f77efe6f842330ec&q=${cadena}&per_page=20&page=${pagina}`;
   console.log(url);
 
   const api = new XMLHttpRequest();
@@ -36,7 +41,7 @@ function obtenerImagenes(cadena){
       for(let item of resultados.hits){
         pizarra.innerHTML += imprimirImagenes(item);
       }
-      
+
     }
 
   }
@@ -62,3 +67,17 @@ function imprimirImagenes(objeto){
   `;
   return lienzo;
 }
+
+botonAnt.addEventListener('click', function(){
+  //console.log(hoja--);
+  if(parametros.hoja > 1){
+    parametros.hoja--;
+    obtenerImagenes(parametros.texto, parametros.hoja);
+  }
+});
+
+botonSig.addEventListener('click', function(){
+  //console.log(hoja++);
+  parametros.hoja++
+  obtenerImagenes(parametros.texto, parametros.hoja);
+});
