@@ -9,8 +9,8 @@ botonSig.style.display = "none";
 
 let parametros = {
   texto: '',
-  hoja: 1,
-  paginacion: 'display'
+  hoja: 1
+  //paginacion: 'display'
 };
 
 formularioHTML.addEventListener('submit', function(e){
