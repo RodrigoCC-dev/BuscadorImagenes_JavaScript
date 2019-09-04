@@ -17,10 +17,12 @@ formularioHTML.addEventListener('submit', function(e){
   e.preventDefault();
   //console.log('me diste un click');
   let datos = new FormData(formularioHTML);
-  //console.log(datos);
+  parametros.hoja = 1;
+  //console.log(formularioHTML.children[0].firstElementChild.firstElementChild.value);
   //console.log(datos.get('datoBusqueda'));
   parametros.texto = datos.get('datoBusqueda');
   //console.log(parametros.texto);
+  formularioHTML.children[0].firstElementChild.firstElementChild.value = '';
 
   obtenerImagenes(parametros.texto, parametros.hoja);
   //console.log(imagenes);
@@ -29,8 +31,6 @@ formularioHTML.addEventListener('submit', function(e){
 function obtenerImagenes(cadena, pagina){
   let url = `https://pixabay.com/api/?key=13119123-71c035b33f77efe6f842330ec&q=${cadena}&per_page=20&page=${pagina}`;
   //console.log(url);
-  botonAnt.style.display = "inline-block";
-  botonSig.style.display = 'inline-block';
 
   const api = new XMLHttpRequest();
   api.open('GET', url, true);
@@ -56,6 +56,8 @@ function obtenerImagenes(cadena, pagina){
   }
   //console.log(resultados);
   //return api.onreadystatechange;
+  botonAnt.style.display = "inline-block";
+  botonSig.style.display = 'inline-block';
 }
 
 function imprimirImagenes(objeto){
